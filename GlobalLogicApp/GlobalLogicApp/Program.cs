@@ -16,6 +16,12 @@ namespace GlobalLogicApp
 
             string path = Console.ReadLine();
 
+            if (File.Exists(path) == false)
+            {
+                Console.WriteLine($"File {path} not exist");
+                return;
+            }
+
             var wordSet = GetWordSet(path);
 
             if (wordSet != null)
@@ -33,12 +39,6 @@ namespace GlobalLogicApp
 
             try
             {
-                if (new FileInfo(path).Exists == false)
-                {
-                    Console.WriteLine($"File {path} not exist");
-                    return null;
-                }
-
                 using (StreamReader _strr = new StreamReader(path))
                 {
                     string line;
@@ -46,6 +46,14 @@ namespace GlobalLogicApp
 
                     while ((line = _strr.ReadLine()) != null)
                     {
+                        var charsToRemove = new string[] { "@", ",", ".", ";", "'" };
+
+                        foreach (var item in charsToRemove)
+                        {
+                            line = line.Replace(item, string.Empty);
+                        }
+
+
                         words = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                         wordsSet.AddRange(words);
@@ -69,10 +77,7 @@ namespace GlobalLogicApp
                 {
                     countWords.Add(item, 1);
                 }
-                else if (countWords.ContainsKey(item))
-                {
-                    countWords[item]++;
-                }
+                countWords[item]++;
             }
 
             return countWords;
