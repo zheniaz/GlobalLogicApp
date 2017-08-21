@@ -18,9 +18,11 @@ namespace GlobalLogicApp
 
             var wordSet = GetWordSet(path);
 
-            var countWordsResult = GetWordsCount(wordSet);
-
-            ShowResut(countWordsResult);
+            if (wordSet != null)
+            {
+                var countWordsResult = GetWordsCount(wordSet);
+                ShowResut(countWordsResult);
+            }
 
             Console.ReadLine();
         }
@@ -50,7 +52,7 @@ namespace GlobalLogicApp
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
